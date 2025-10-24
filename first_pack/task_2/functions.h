@@ -11,6 +11,6 @@ int is_overflow(const char *str, const long converted_value);
 
 status_code string_to_int(const char *input_string, long *output_x);
 
-long Er_prime(int number);
+long Er_prime(long number);
 
 #endif

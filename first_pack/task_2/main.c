@@ -11,8 +11,12 @@ int main(int argc, char **argv) {
 
     char str_input[100];
     long T;
-    fgets(str_input, sizeof(str_input), stdin);
-
+    
+    if (fgets(str_input, sizeof(str_input), stdin) == NULL) {
+        printf("Ошибка ввода.\n");
+        return INPUT_ERROR;
+    }
+    
     str_input[strcspn(str_input, "\n")] = '\0';
 
     status_code convert_return = string_to_int(str_input, &T);
@@ -38,18 +42,26 @@ int main(int argc, char **argv) {
             return convert_return;
         }
 
-        if (input > 10000) {
-            printf("Слишком большой номер. Он не должен превышать 10000.\n");
+        if (input > 100000) {
+            printf("Слишком большой номер. Он не должен превышать 100000.\n");
             return INPUT_ERROR;
         }
 
         numbers[i++] = input;
     }
 
-    Er_prime(0);
+    if (Er_prime(0) != OK) {
+        printf("Ошибка инициализации решета Эратосфена.\n");
+        return INPUT_ERROR;
+    }
 
     for (int k = 0; k < T; ++k) {
-        printf("%ld\n", Er_prime(numbers[k]));
+        long prime = Er_prime(numbers[k]);
+        if (prime == -1) {
+            printf("Простое число с таким номером не найдено.\n");
+        } else {
+            printf("%ld\n", prime);
+        }
     } 
 
     Er_prime(-1);

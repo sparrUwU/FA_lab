@@ -11,18 +11,20 @@ long Er_prime(long number)
 {
     static long *mass = NULL;
     static long primes_count = 0;
+    
     if (number == 0) {
-        long n = 1000000 * 20;
+        long n = 2000000;
         bool *is_prime = (bool*)malloc((n + 1) * sizeof(bool));
+        
+        if (is_prime == NULL) {
+            return INPUT_ERROR;
+        }
         
         for (long i = 0; i <= n; i++)
             is_prime[i] = true;
         is_prime[0] = is_prime[1] = false;
 
-        long p;
-        for (long i = 0; i < n; i++)
-            mass[i] = i + 2;
-        for (long i = 2; i * i < n; i++) {
+        for (long i = 2; i * i <= n; i++) {
             if (is_prime[i]) {
                 for (long j = i * i; j <= n; j += i) {
                     is_prime[j] = false;
@@ -39,6 +41,11 @@ long Er_prime(long number)
         
         if (mass != NULL) free(mass);
         mass = (long *)malloc(primes_count * sizeof(long));
+        if (mass == NULL) {
+            free(is_prime);
+            return INPUT_ERROR;
+        }
+        
         long idx = 0;
         for (long i = 2; i <= n; i++) {
             if (is_prime[i]) {
@@ -54,10 +61,11 @@ long Er_prime(long number)
             free(mass);
             mass = NULL;
         }
+        primes_count = 0;
         return OK;
     }
 
-    if (number > primes_count) {
+    if (number > primes_count || number <= 0) {
         return -1;
     }
 
