@@ -256,7 +256,7 @@ int parse_zeckendorf(const char *str, int *len) {
     int start_index = 0;
     while (str[start_index] == '0') {
         start_index++;
-        *len++;
+        (*len)++;
     }
     
     if (str[start_index] == '\0') {
@@ -285,7 +285,7 @@ int parse_zeckendorf(const char *str, int *len) {
         } else if (str[i] != '0') {
             break;
         }
-        *len++;
+        (*len)++;
         fib_index++;
     }
     
