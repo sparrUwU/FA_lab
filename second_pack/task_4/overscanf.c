@@ -52,7 +52,7 @@ int voverfscanf(FILE *stream, const char *format, va_list args) {
                 if (fscanf(stream, "%15s", buffer) == 1) {
                     int len;
                     int value = parse_roman(buffer, &len);
-                    if (len > 0) {
+                    if (len > 0 && len == (int)strlen(buffer)) {
                         *value_ptr = value;
                         total_scanned++;
                     }
@@ -65,7 +65,7 @@ int voverfscanf(FILE *stream, const char *format, va_list args) {
                 if (fscanf(stream, "%48s", buffer) == 1) {
                     int len;
                     unsigned int value = parse_zeckendorf(buffer, &len);
-                    if (len > 0) {
+                    if (len > 0 && len == (int)strlen(buffer)) {
                         *value_ptr = value;
                         total_scanned++;
                     }
@@ -127,6 +127,11 @@ int voversscanf(char *str, const char *format, va_list args) {
     int total_scanned = 0;
     
     while (*p && *s) {
+        while (isspace(*s)) {
+            s++;
+        }
+        if (*s == '\0') break;
+        
         if (*p == '%') {
             p++;
             
@@ -139,6 +144,8 @@ int voversscanf(char *str, const char *format, va_list args) {
                     *value_ptr = value;
                     total_scanned++;
                     s += len;
+                } else {
+                    break;
                 }
                 p += 2;
             }
@@ -151,6 +158,8 @@ int voversscanf(char *str, const char *format, va_list args) {
                     *value_ptr = value;
                     total_scanned++;
                     s += len;
+                } else {
+                    break;
                 }
                 p += 2;
             }
@@ -164,6 +173,8 @@ int voversscanf(char *str, const char *format, va_list args) {
                     *value_ptr = value;
                     total_scanned++;
                     s += len;
+                } else {
+                    break;
                 }
                 p += 2;
             }
@@ -177,6 +188,8 @@ int voversscanf(char *str, const char *format, va_list args) {
                     *value_ptr = value;
                     total_scanned++;
                     s += len;
+                } else {
+                    break;
                 }
                 p += 2;
             }
@@ -189,14 +202,16 @@ int voversscanf(char *str, const char *format, va_list args) {
                     while (*s && !isspace(*s)) {
                         s++;
                     }
-                    while (*s && isspace(*s)) {
-                        s++;
-                    }
+                } else {
+                    break;
                 }
                 p++;
             }
         } 
         else {
+            if (*p != *s) {
+                break;
+            }
             p++;
             s++;
         }
@@ -206,22 +221,32 @@ int voversscanf(char *str, const char *format, va_list args) {
     return total_scanned;
 }
 
-
 int parse_roman(const char *str, int *len) {
     int result = 0;
-    int i = 0;
     *len = 0;
+    const char *s = str;
     
-    for (int j = 0; j < roman_table_size; j++) {
-        const char *numeral = roman_numerals[j].numeral;
-        int str_len = strlen(numeral);
+    while (*s) {
+        int found = 0;
         
-        if (strncmp(str + *len, numeral, str_len) == 0) {
-            result += roman_numerals[j].value;
-            *len += str_len;
+        for (int i = 0; i < roman_table_size; i++) {
+            const char *numeral = roman_numerals[i].numeral;
+            int numeral_len = strlen(numeral);
+            
+            if (strncmp(s, numeral, numeral_len) == 0) {
+                result += roman_numerals[i].value;
+                s += numeral_len;
+                *len += numeral_len;
+                found = 1;
+                break;
+            }
+        }
+        
+        if (!found) {
+            break;
         }
     }
-
+    
     return result;
 }
 
@@ -231,20 +256,21 @@ int parse_zeckendorf(const char *str, int *len) {
     int start_index = 0;
     while (str[start_index] == '0') {
         start_index++;
+        *len++;
     }
-
-    if (str[*len] == '\0') {
+    
+    if (str[start_index] == '\0') {
         return 0;
     }
     
     unsigned int fib[48];
     fib[0] = 1;
     fib[1] = 2;
-    int count = 2;
+    int fib_count = 2;
     
-    while (count < 48) {
-        fib[count] = fib[count-1] + fib[count-2];
-        count++;
+    while (fib_count < 48) {
+        fib[fib_count] = fib[fib_count-1] + fib[fib_count-2];
+        fib_count++;
     }
     
     unsigned int result = 0;
@@ -253,20 +279,14 @@ int parse_zeckendorf(const char *str, int *len) {
     
     for (int i = start_index; i < str_len - 1; i++) {
         if (str[i] == '1') {
-            if (fib_index < count) {
+            if (fib_index < fib_count) {
                 result += fib[fib_index];
             }
         } else if (str[i] != '0') {
             break;
         }
+        *len++;
         fib_index++;
-    }
-    
-    if (str[str_len - 1] == '1') {
-        *len = str_len;
-    } else {
-        *len = 0;
-        result = 0;
     }
     
     return result;

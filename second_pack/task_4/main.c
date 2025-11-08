@@ -49,22 +49,22 @@ int main() {
     printf("\n2. Демонстрация oversscanf (разбор строк):\n");
 
     oversscanf("MMXXIII", "%Ro", &roman_val);
-    printf("Римские цифры: 2023 = %d\n", roman_val);
+    printf("Римские цифры: MMXXIII = %d\n", roman_val);
     
     oversscanf("XLIX", "%Ro", &roman_val);
-    printf("  49 = %d\n", roman_val);
+    printf("  XLIX = %d\n", roman_val);
     
     oversscanf("XCIX", "%Ro", &roman_val);
-    printf("  99 = %d\n", roman_val);
+    printf("  XCIX = %d\n", roman_val);
 
     oversscanf("101010", "%Zr", &zeck_val);
-    printf("Цекендорф: 20 = %u\n", zeck_val);
+    printf("Цекендорф: 101010 = %u\n", zeck_val);
     
     oversscanf("100110", "%Zr", &zeck_val);
-    printf("  15 = %u\n", zeck_val);
+    printf("  100110 = %u\n", zeck_val);
     
     oversscanf("1010", "%Zr", &zeck_val);
-    printf("  7 = %u\n", zeck_val);
+    printf("  1010 = %u\n", zeck_val);
 
     oversscanf("ff", "%Cv", &base_val1, 16);
     printf("Системы счисления: 255(16 ниж.) = %d\n", base_val1);
