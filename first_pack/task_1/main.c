@@ -6,7 +6,7 @@
 int main(int argc, char **argv) {
     if (argc != 3) {
         printf("Ошибка ввода.\n");
-        return INPUT_ERROR;
+        return INPUT_ERROR; // попа кира
     }
 
     const char *str_x = argv[1];
