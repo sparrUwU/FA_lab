@@ -1,0 +1,4 @@
+[2] A = 1444	| A=1444 | Assignment
+[3] B = 0	| A=1444, B=0 | Assignment
+[4] A = B - A	| A=-1444, B=0 | Arithmetic operation
+[5] print(A)	| A=-1444, B=0 | Print

@@ -1,5 +1,6 @@
 "Hello World"
-"This  is a very long string that should be split into multiple lines of exactly
-80   characters   each   with   spaces   distributed   evenly   between   words"
+"This    is    a    very    long    string    that    should   be   split   into
+mulllllllllllllllllllllllllllllllllllllllltiple  lines  of exactly 80 characters
+each      with      spaces      distributed      evenly      between      words"
 "Supercalifragilisticexpialidocious and other long words"
 "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
