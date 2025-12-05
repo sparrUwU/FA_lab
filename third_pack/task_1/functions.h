@@ -17,6 +17,6 @@ status_code convert_to_2(const int *number, char *answer);
 int bit_add(int a, int b);
 int bit_sub(int a, int b);
 status_code remove_leading_zeros(char *str);
-void reverse_string(char *str, size_t length);
+void int_to_binary(int num, char *bin);
 
 #endif

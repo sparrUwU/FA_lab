@@ -92,7 +92,7 @@ int bit_sub(int a, int b) {
     return a;
 }
 
-static void int_to_binary(int num, char *bin) {
+void int_to_binary(int num, char *bin) {
     int i = 31;
     int pos = 0;
 
