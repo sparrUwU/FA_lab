@@ -11,6 +11,9 @@ typedef enum status_code {
 } status_code;
 
 
+status_code string_to_int(const char *input_string, long *output_x);
+int is_overflow(const char *str, const long converted_value);
+
 status_code convert_to_p(const int p, const int *number, char *answer);
 status_code convert_to_2(const int *number, char *answer);
 

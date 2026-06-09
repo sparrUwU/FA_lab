@@ -1,4 +1,11 @@
-[2] A = 1444	| A=1444 | Assignment
-[3] B = 0	| A=1444, B=0 | Assignment
-[4] A = B - A	| A=-1444, B=0 | Arithmetic operation
-[5] print(A)	| A=-1444, B=0 | Print
+[1] A = 2	| A=2 | Assignment
+[2] B = 3	| A=2, B=3 | Assignment
+[3] C = A + B*2	| A=2, B=3, C=8 | Arithmetic operation
+[4] print(C)	| A=2, B=3, C=8 | Print
+[5] A = 2 + (3 + 2*B) - C	| A=3, B=3, C=8 | Arithmetic operation
+[6] print(A)	| A=3, B=3, C=8 | Print
+[7] A =      2	| A=2, B=3, C=8 | Assignment
+[8] print(A       )	| A=2, B=3, C=8 | Print
+[9] D = 9	| A=2, B=3, C=8, D=9 | Assignment
+[10] A = 2 * (3 + 3)	| A=9, B=3, C=8, D=9 | Arithmetic operation
+[11] print(A)	| A=9, B=3, C=8, D=9 | Print

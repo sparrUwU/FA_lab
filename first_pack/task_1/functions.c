@@ -10,7 +10,7 @@
 
 int is_overflow(const char *str, const long long converted_value) {
     char buffer[50];
-    snprintf(buffer, sizeof(buffer), "%lld", converted_value); 
+    snprintf(buffer, sizeof(buffer), "%ld", converted_value); 
     
     const char *original_str = str;
     const char *buf_str = buffer;

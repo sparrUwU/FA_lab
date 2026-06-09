@@ -1,6 +1,56 @@
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "functions.h"
 
+status_code string_to_int(const char *input_string, long *output_x) {  
+    if (input_string == NULL) {
+        return INPUT_ERROR;
+    }
+
+    char *endptr;
+    while (*input_string == ' ' || *input_string == '\t') {
+        ++input_string;
+    }
+    
+    long convert_result = strtol(input_string, &endptr, 10);
+        
+    if (endptr == input_string) {
+        return INPUT_ERROR;
+    }
+    while (*endptr == ' ' || *endptr == '\t') {
+        ++endptr;
+    }
+
+    if (*endptr != '\0') {
+        return INPUT_ERROR;
+    }
+
+    if (is_overflow(input_string, convert_result)) {
+        return OVERFLOW_ERROR;
+    }
+    
+    *output_x = convert_result;
+    return OK;
+}
+
+int is_overflow(const char *str, const long converted_value) {
+    char buffer[50];
+    snprintf(buffer, sizeof(buffer), "%ld", converted_value); 
+    
+    const char *original_str = str;
+    const char *buf_str = buffer;
+
+    while (*original_str == ' ' || *original_str == '\t') ++original_str;
+        
+    if (*original_str == '-' || *original_str == '+') ++original_str;
+    if (*buf_str == '-') ++buf_str;
+     
+    while (*original_str == '0') ++original_str;
+    while (*buf_str == '0') ++buf_str;
+    
+    return (strcmp(original_str, buf_str) != 0);
+}
 
 status_code convert_to_p(const int p, const int *number, char *answer) {
     if (!number || !answer) return INPUT_ERROR;
@@ -27,7 +77,7 @@ status_code convert_to_p(const int p, const int *number, char *answer) {
     int out = 0;
 
     while (i >= 0) {
-        int bit = bin[31 - i] & 1;
+        int bit = bin[bit_sub(31, i)] & 1;
 
         out |= (bit << (bit_sub(r, bit_add(bit_cnt, 1))));
         bit_cnt = bit_add(bit_cnt, 1);
@@ -41,7 +91,7 @@ status_code convert_to_p(const int p, const int *number, char *answer) {
                 c = bit_add('A', bit_sub(out, 10));
 
             answer[idx] = c;
-            idx = bit_add(idx, 1);
+            idx = bit_add(idx, 1); //4294967300
 
             out = 0;
             bit_cnt = 0;
